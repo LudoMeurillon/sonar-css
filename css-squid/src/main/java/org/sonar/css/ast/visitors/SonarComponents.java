@@ -30,15 +30,13 @@ import java.io.File;
 public class SonarComponents implements BatchExtension {
 
   private final ResourcePerspectives resourcePerspectives;
-  private final Project project;
 
-  public SonarComponents(ResourcePerspectives resourcePerspectives, Project project) {
+  public SonarComponents(ResourcePerspectives resourcePerspectives) {
     this.resourcePerspectives = resourcePerspectives;
-    this.project = project;
   }
 
   public Resource resourceFromIOFile(File file) {
-    return org.sonar.api.resources.File.fromIOFile(file, project);
+    return org.sonar.api.resources.File.create(file.getPath());
   }
 
   public Highlightable highlightableFor(File file) {

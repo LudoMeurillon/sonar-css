@@ -31,20 +31,26 @@ import net.sourceforge.pmd.cpd.Tokens;
 import org.sonar.css.parser.CssGrammar;
 import org.sonar.sslr.parser.LexerlessGrammar;
 import org.sonar.sslr.parser.ParserAdapter;
+import org.w3c.dom.css.CSSRuleList;
 
 import java.io.File;
 import java.nio.charset.Charset;
 
 public class CssTokenizer implements Tokenizer {
 
-  private final Parser<LexerlessGrammar> parser;
+  private final Charset encoding;
 
-  public CssTokenizer(Charset charset) {
-    this.parser = new ParserAdapter<LexerlessGrammar>(charset, CssGrammar.createGrammar());
+  public CssTokenizer(Charset encoding) {
+    this.encoding = encoding;
   }
 
   @Override
   public final void tokenize(SourceCode source, Tokens cpdTokens) {
+    String fileName = source.getFileName();
+    cpdTokens.add(TokenEntry.getEOF());
+
+    Parser<LexerlessGrammar> parser = new ParserAdapter<LexerlessGrammar>(encoding, CssGrammar.createGrammar());
+
     try {
       String filename = source.getFileName();
 

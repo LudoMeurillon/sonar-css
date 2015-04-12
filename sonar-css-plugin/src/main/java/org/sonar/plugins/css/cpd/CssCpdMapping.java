@@ -21,25 +21,23 @@ package org.sonar.plugins.css.cpd;
 
 import net.sourceforge.pmd.cpd.Tokenizer;
 import org.sonar.api.batch.AbstractCpdMapping;
+import org.sonar.api.batch.fs.FileSystem;
 import org.sonar.api.resources.Language;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.css.core.Css;
-
-import java.nio.charset.Charset;
 
 public class CssCpdMapping extends AbstractCpdMapping {
 
   private final Css language;
-  private final Charset charset;
+  private final FileSystem fileSystem;
 
-  public CssCpdMapping(Css language, ModuleFileSystem fs) {
+  public CssCpdMapping(Css language, FileSystem fileSystem) {
     this.language = language;
-    this.charset = fs.sourceCharset();
+    this.fileSystem = fileSystem;
   }
 
   @Override
   public Tokenizer getTokenizer() {
-    return new CssTokenizer(charset);
+    return new CssTokenizer(fileSystem.encoding());
   }
 
   @Override

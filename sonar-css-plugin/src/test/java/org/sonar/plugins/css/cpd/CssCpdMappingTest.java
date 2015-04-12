@@ -19,21 +19,14 @@
  */
 package org.sonar.plugins.css.cpd;
 
-import com.google.common.base.Charsets;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
+import org.sonar.api.batch.fs.internal.DefaultFileSystem;
+import org.sonar.api.batch.fs.internal.DefaultInputFile;
 import org.sonar.api.config.Settings;
-import org.sonar.api.scan.filesystem.FileQuery;
-import org.sonar.api.scan.filesystem.ModuleFileSystem;
 import org.sonar.plugins.css.core.Css;
-
 import java.io.File;
-import java.util.Arrays;
-
 import static org.fest.assertions.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class CssCpdMappingTest {
 
@@ -41,9 +34,8 @@ public class CssCpdMappingTest {
 
   @Before
   public void setup() {
-    ModuleFileSystem fileSystem = mock(ModuleFileSystem.class);
-    when(fileSystem.sourceCharset()).thenReturn(Charsets.UTF_8);
-    when(fileSystem.files(Mockito.any(FileQuery.class))).thenReturn(Arrays.asList(new File("src/test/resources/org/sonar/plugins/css/cssProject/css/boxSizing.css")));
+    DefaultFileSystem fileSystem = new DefaultFileSystem(new File("dunno"));
+    fileSystem.add(new DefaultInputFile("fake.css").setLanguage(Css.KEY));
     mapping = new CssCpdMapping(
       new Css(new Settings()), fileSystem);
   }

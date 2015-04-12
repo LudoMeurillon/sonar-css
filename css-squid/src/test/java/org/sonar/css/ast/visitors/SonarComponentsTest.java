@@ -40,7 +40,7 @@ public class SonarComponentsTest {
     File file = mock(File.class);
     final Resource resource = mock(Resource.class);
 
-    SonarComponents sonarComponents = new SonarComponents(resourcePerspectives, mock(Project.class)) {
+    SonarComponents sonarComponents = new SonarComponents(resourcePerspectives) {
 
       @Override
       public Resource resourceFromIOFile(File file) {
@@ -56,7 +56,7 @@ public class SonarComponentsTest {
   @Test
   public void getResourcePerspectives() {
     ResourcePerspectives resourcePerspectives = mock(ResourcePerspectives.class);
-    SonarComponents sonarComponents = new SonarComponents(resourcePerspectives, mock(Project.class));
+    SonarComponents sonarComponents = new SonarComponents(resourcePerspectives);
     assertThat(sonarComponents.getResourcePerspectives()).isSameAs(resourcePerspectives);
   }
 
